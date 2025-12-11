@@ -11,6 +11,9 @@ class AdaptiveEngine:
         self.max_score = 3.0
         self.lr = 0.8   # learning rate
         self.target = 0.7  # desired performance
+        # Track streaks
+        self.correct_streak = 0
+        self.wrong_streak = 0
 
     def compute_performance(self, correct, time_taken):
         """
