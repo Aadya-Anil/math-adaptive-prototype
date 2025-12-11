@@ -1,55 +1,62 @@
 # src/main.py
+
 import time
 from src.puzzle_generator import generate_puzzle
-from src.tracker import SessionTracker
 from src.adaptive_engine import AdaptiveEngine
+from src.tracker import SessionTracker
 
-def run_session():
-    print("🌟 Welcome to The Math Game! 🌟")
-    name = input("👋 What's your name? ").strip() or "Player"
-    print(f"Hi {name}! Let's play!\n")
+LEVELS = ["Easy", "Medium", "Hard", "Warrior"]
 
-    print("Choose difficulty:")
-    print("1) Easy")
-    print("2) Medium")
-    print("3) Hard")
-    print("4) Warrior")
+def main():
+    print("\n=== Adaptive Math Prototype ===\n")
 
-    mapping = {"1":0, "2":1, "3":2, "4":3}
+    name = input("Enter your name: ").strip() or "Player"
+    print(f"\nHello, {name}! Let's begin.\n")
+
+    print("Choose starting difficulty:")
+    print("1) Easy\n2) Medium\n3) Hard\n4) Warrior")
+
     while True:
-        pick = input("Enter 1-4: ").strip()
-        if pick in mapping:
-            init = mapping[pick]
+        choice = input("Enter 1–4: ")
+        if choice in ["1", "2", "3", "4"]:
             break
-        print("Please enter 1,2,3 or 4.")
+        print("Please enter a valid option.")
 
-    engine = AdaptiveEngine(init_level=init, max_level=3)
+    start_level = int(choice) - 1
+    engine = AdaptiveEngine(start_level=start_level)
     tracker = SessionTracker()
-    rounds = 8
-    for i in range(rounds):
+
+    NUM_QUESTIONS = 8
+
+    for i in range(NUM_QUESTIONS):
         level = engine.get_level()
         expr, ans = generate_puzzle(level)
-        print(f"\nPuzzle {i+1}/{rounds} (Level {['Easy','Medium','Hard','Warrior'][level]}): {expr} = ?")
+
+        print(f"\nQ{i+1}/{NUM_QUESTIONS} | Level: {LEVELS[level]}")
+        print(f"Solve: {expr} = ?")
+
         start = time.monotonic()
         try:
-            user = int(input("Answer: ").strip())
+            user_ans = int(input("Your answer: "))
         except:
-            user = None
+            user_ans = None
         elapsed = time.monotonic() - start
-        correct = (user == ans)
-        tracker.log_attempt(level, correct, elapsed, user if user is not None else -999, ans)
+
+        correct = (user_ans == ans)
+        tracker.log(level, correct, elapsed, user_ans, ans)
         engine.update(correct, elapsed)
+
         if correct:
-            print("✅ Correct!")
+            print("✓ Correct!")
         else:
-            print(f"❌ Wrong — correct answer: {ans}")
-        print(f"Time: {elapsed:.2f}s | Next level: {['Easy','Medium','Hard','Warrior'][engine.get_level()]}")
-    # Summary
-    print("\n=== Summary ===")
+            print(f"✗ Wrong. Correct answer: {ans}")
+        print(f"Time taken: {elapsed:.2f}s")
+
+    # summary
+    print("\n=== Session Summary ===")
     print(f"Accuracy: {tracker.accuracy()*100:.1f}%")
-    print(f"Avg time: {tracker.avg_time():.2f}s")
-    for idx,a in enumerate(tracker.attempts,1):
-        print(f"{idx}. Level {['Easy','Medium','Hard','Warrior'][a.difficulty]} | Correct: {a.correct} | Time: {a.time_taken:.2f}s | Ans: {a.user_answer} | True: {a.correct_answer}")
+    print(f"Average time: {tracker.avg_time():.2f}s")
+    print("\nThanks for playing!")
 
 if __name__ == "__main__":
-    run_session()
+    main()
