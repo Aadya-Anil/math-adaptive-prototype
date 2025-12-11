@@ -9,7 +9,7 @@ class AdaptiveEngine:
     def __init__(self, start_level=0):
         self.score = float(start_level)
         self.max_score = 3.0
-        self.lr = 0.4   # learning rate
+        self.lr = 0.8   # learning rate
         self.target = 0.7  # desired performance
 
     def compute_performance(self, correct, time_taken):
