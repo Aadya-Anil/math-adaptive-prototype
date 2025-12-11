@@ -84,11 +84,16 @@ def create_next_puzzle_if_needed():
 if st.session_state.name is None:
     st.subheader("👋 What’s your name, hero?")
     name_input = st.text_input("Enter name", key="name_input")
+
     if st.button("Start (choose difficulty next)"):
         if name_input.strip():
             st.session_state.name = name_input.strip()
-            st.experimental_rerun()
-    st.stop()
+            # No rerun needed — Streamlit auto-reruns after button press.
+
+    # If still no name, stop here
+    if st.session_state.name is None:
+        st.stop()
+
 
 st.write(f"Hi **{st.session_state.name}**! Let's play a short adaptive round — {QUESTIONS_PER_ROUND} questions.")
 
