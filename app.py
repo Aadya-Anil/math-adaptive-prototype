@@ -1,4 +1,4 @@
-# app.py
+# app.py (fixed)
 import streamlit as st
 import time
 from src.puzzle_generator import generate_puzzle
@@ -30,7 +30,6 @@ if "name" not in st.session_state:
     st.session_state.name = None
 
 if "engine" not in st.session_state:
-    # engine will be created when the player chooses difficulty / starts game
     st.session_state.engine = None
 
 if "tracker" not in st.session_state:
@@ -63,6 +62,7 @@ def start_new_round(init_level: int):
     st.session_state.start_time = None
     st.session_state.round_active = True
     st.session_state.last_feedback = ""
+    # After button press Streamlit will rerun automatically.
 
 def end_round():
     st.session_state.round_active = False
@@ -77,6 +77,8 @@ def create_next_puzzle_if_needed():
         st.session_state.current_puzzle = puzzle
         st.session_state.current_answer = answer
         st.session_state.start_time = time.monotonic()
+        # initialize answer_input so form shows blank
+        st.session_state.answer_input = ""
 
 # -------------------------
 # UI — Name & Start
@@ -88,12 +90,11 @@ if st.session_state.name is None:
     if st.button("Start (choose difficulty next)"):
         if name_input.strip():
             st.session_state.name = name_input.strip()
-            # No rerun needed — Streamlit auto-reruns after button press.
+            # Streamlit auto-reruns after button click.
 
     # If still no name, stop here
     if st.session_state.name is None:
         st.stop()
-
 
 st.write(f"Hi **{st.session_state.name}**! Let's play a short adaptive round — {QUESTIONS_PER_ROUND} questions.")
 
@@ -104,22 +105,18 @@ if not st.session_state.round_active:
     with c1:
         if st.button("1️⃣ Easy"):
             start_new_round(init_level=0)
-            st.experimental_rerun()
     with c2:
         if st.button("2️⃣ Medium"):
             start_new_round(init_level=1)
-            st.experimental_rerun()
     with c3:
         if st.button("3️⃣ Hard"):
             start_new_round(init_level=2)
-            st.experimental_rerun()
     with c4:
         if st.button("4️⃣ Warrior"):
             start_new_round(init_level=3)
-            st.experimental_rerun()
 
     # show last round summary if exists
-    if st.session_state.tracker is not None and st.session_state.q_num > 0:
+    if st.session_state.tracker is not None and st.session_state.q_num > 0 and st.session_state.engine is not None:
         st.write("### Last round summary (most recent)")
         acc = st.session_state.tracker.accuracy() * 100
         avg_t = st.session_state.tracker.avg_time()
@@ -131,6 +128,13 @@ if not st.session_state.round_active:
 # -------------------------
 # Round is active: ensure puzzle ready
 # -------------------------
+# Safety: ensure engine & tracker exist
+if st.session_state.engine is None or st.session_state.tracker is None:
+    # Something wrong — reset to choose difficulty
+    st.write("Session state invalid. Please choose a difficulty to start a new round.")
+    st.session_state.round_active = False
+    st.stop()
+
 create_next_puzzle_if_needed()
 
 # if we've asked enough questions → end round and show summary
@@ -141,7 +145,8 @@ if not st.session_state.round_active:
     # Round finished — show performance summary
     st.subheader("🏁 Round complete — Performance Summary")
     tracker = st.session_state.tracker
-    if tracker is None:
+    engine = st.session_state.engine
+    if tracker is None or engine is None:
         st.write("No data.")
     else:
         acc = tracker.accuracy() * 100
@@ -150,7 +155,7 @@ if not st.session_state.round_active:
         st.write(f"- Accuracy: **{acc:.1f}%**")
         st.write(f"- Average time: **{avg_t:.2f}s**")
         st.write(f"- Questions answered: **{len(tracker.attempts)}**")
-        st.write(f"- Final difficulty: **{LEVEL_NAMES[st.session_state.engine.get_level()]}**")
+        st.write(f"- Final difficulty: **{LEVEL_NAMES[engine.get_level()]}**")
         st.write("### Attempts (most recent first)")
         for a in reversed(tracker.attempts):
             st.write(f"- {LEVEL_NAMES[a.difficulty]} | Correct: {a.correct} | Time: {a.time_taken:.2f}s | Ans: {a.user_answer}")
@@ -158,7 +163,7 @@ if not st.session_state.round_active:
     st.write("")
     if st.button("Play again"):
         # reset everything so they choose difficulty again
-        st.session_state.name = st.session_state.name  # keep name
+        # keep name
         st.session_state.engine = None
         st.session_state.tracker = None
         st.session_state.q_num = 0
@@ -166,7 +171,7 @@ if not st.session_state.round_active:
         st.session_state.current_answer = None
         st.session_state.start_time = None
         st.session_state.round_active = False
-        st.experimental_rerun()
+        # Streamlit will rerun after button press
     st.stop()
 
 # -------------------------
@@ -196,7 +201,8 @@ if submitted:
         st.session_state.current_puzzle = None
         st.session_state.current_answer = None
         st.session_state.start_time = None
-        st.experimental_rerun()
+        st.experimental_rerun()  # safe here because it's after a user action
+        st.stop()
 
     # parse answer
     try:
@@ -207,6 +213,9 @@ if submitted:
 
     elapsed = time.monotonic() - st.session_state.start_time
     correct = (user_ans == st.session_state.current_answer)
+
+    # capture true answer for feedback BEFORE we clear it
+    true_answer = st.session_state.current_answer
 
     # log attempt
     st.session_state.tracker.log_attempt(st.session_state.engine.get_level(), correct, elapsed, user_ans)
@@ -227,27 +236,12 @@ if submitted:
     if correct:
         st.success(f"🎉 Correct! Time: {elapsed:.2f}s")
     else:
-        st.error(f"❌ Incorrect — correct answer was **{st.session_state.tracker.attempts[-1].user_answer if False else 'hidden'}**")
-        # show correct answer separately to avoid accidental eval confusion
-        # we saved the answer in the logged attempt? show via the previous attempt's answer using tracker
-        last_attempt = st.session_state.tracker.attempts[-1]
-        # the true correct answer is not stored in tracker, so we show it using engine/previous state
-        # safer: compute it from the puzzle we just answered (we had it in session_state before clearing)
-        # but we cleared it already — to avoid that, store the correct answer in a temp variable before clearing
-        # (we will instead display a generic hint)
-        st.write(f"The correct answer was: **{ (st.session_state.tracker.attempts[-1].user_answer if last_attempt else 'N/A') }**")
-        # Note: the code stores user_answer; for transparency it's better to display the actual correct answer
-        # If you want the exact correct value shown, keep a small history of correct answers in session_state
+        st.error(f"❌ Incorrect — correct answer was **{true_answer}**")
 
-    # Small pause for UX (optional)
     st.write(f"Next question coming up. Questions completed: {st.session_state.q_num}/{QUESTIONS_PER_ROUND}")
 
-    # If round done, we will show summary on next rerun
-    if st.session_state.q_num >= QUESTIONS_PER_ROUND:
-        st.experimental_rerun()
-    else:
-        # generate next puzzle immediately and rerun to update UI
-        st.experimental_rerun()
+    # No explicit rerun needed — Streamlit will rerun automatically after the form submit.
+    # If round finished, UI above will show the summary on the next render.
 
 # -------------------------
 # End of file
