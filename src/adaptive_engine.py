@@ -45,10 +45,10 @@ class AdaptiveEngine:
 
     def get_level(self): #maps continuous score to discrete level 0 to 3
         if self.score < 1.0:
-            return 0
+            return 0 #Easy
         elif self.score < 2.0:
-            return 1
+            return 1 #Medium
         elif self.score < 3.0:
-            return 2
+            return 2 #Hard
         else:
-            return 3
+            return 3 #Warrior
