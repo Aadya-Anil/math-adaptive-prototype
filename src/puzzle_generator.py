@@ -8,7 +8,7 @@ def generate_puzzle(level):
         if op == "-" and b > a: # to avoid negative numbers because this is for ages 5-10
             a, b = b, a
         expr = f"{a} {op} {b}"
-         if op == "/": #avoids fraction answers
+        if op == "/": #avoids fraction answers
             dividend = a * b
             expr= f"{dividend} / a", b
 
