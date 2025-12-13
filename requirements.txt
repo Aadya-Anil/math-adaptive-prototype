@@ -1,2 +1,11 @@
-streamlit
+# This project uses only Python standard library modules.
+# No external dependencies required.
 
+# Python version
+python>=3.8
+
+
+Python standard library modules used:
+ |_ time
+ |_random
+ |_dataclasses
