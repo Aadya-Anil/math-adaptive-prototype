@@ -180,3 +180,5 @@ No external dependencies
 
 This project demonstrates how adaptive learning behavior can be implemented using a small, well-structured system with reinforcement-style updates and meaningful performance metrics, without relying on heavy machine-learning frameworks.
 
+To watch the demo video click here : https://drive.google.com/file/d/18v1xAhK6RBVPtAlaKRRhwPIHTh84jqjM/view?usp=drive_link
+
