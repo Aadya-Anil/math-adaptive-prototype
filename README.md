@@ -146,23 +146,23 @@ These metrics influence both the adaptive difficulty updates and the final sessi
 ## Session Summary
 
 At the end of the session, the system displays:
-> Number of correct and wrong answers
-> Accuracy percentage
-> Average response time
-> Recommended next difficulty level
+1. Number of correct and wrong answers
+2. Accuracy percentage
+3. Average response time
+4. Recommended next difficulty level
 
 Users are promoted only if performance exceeds a defined threshold ie. if the scored above 60% in current level.
 
 ## Why This Approach
 
 This design was chosen because it is:
-> Easy to implement and reason about
-> No external dependencies or training data, hence light-weight
-> Adapts immediately after each question, providing real-time simulation
-> It is educationally appropriate fro students of ages 5 to 10.
-> It can be extended to ML-based adaptation in the future
+1. Easy to implement and reason about
+2. No external dependencies or training data, hence light-weight
+3. Adapts immediately after each question, providing real-time simulation
+4. It is educationally appropriate fro students of ages 5 to 10.
+5. It can be extended to ML-based adaptation in the future
 
-Implemented using Github COdespaces - command to run program "python -m src.main"
+Implemented using Github Codespaces - command to run program "python -m src.main"
 
 ## Requirements
 
