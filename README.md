@@ -167,6 +167,7 @@ Implemented using Github Codespaces - command to run program "python -m src.main
 ## Requirements
 
 Python 3.8 or higher version
+
 No external dependencies
 
 
