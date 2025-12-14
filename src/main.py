@@ -47,7 +47,7 @@ def main():
         if correct:
             print(" ✓ That is Correct!")
         else:
-            print(f" ✗ Opps, that's not right. Correct answer was {ans}")
+            print(f" ✗ Oops, that's not right. Correct answer was {ans}")
         print(f"You took {elapsed:.2f}s to answer that!")
 
     # summary at end of session
