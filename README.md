@@ -28,7 +28,7 @@ The goal of this project is to demonstrate:
 
 ## Project Structure
 
-src/
+src
   |-- main.py              # Session flow and user interaction
   |--puzzle_generator.py  # Difficulty-based math question generation
   |-- adaptive_engine.py   # Adaptive difficulty logic
