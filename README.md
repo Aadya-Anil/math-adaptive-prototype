@@ -2,18 +2,18 @@
 
 ## Content
 #### [Overview](#overview-1)
-### Project Structure
-### System Flow
-### Adaptive Logic
-### Difficulty Representation
-### Performance Signal
-### Stability Rules
-### Puzzle Generation
-### Metrics tracked
-### Session Summary
-### Why This Approach
-### Requirements
-### Conclusion
+#### [Project Structure](#project-structure-1)
+#### [System Flow](#overview-1)
+#### [Adaptive Logic](#system-flow-1)
+#### [Difficulty Representation](#difficulty-representation-1)
+#### [Performance Signal](#performance-signal-1)
+#### [Stability Rules](#stabilit-rules-1)
+#### [Puzzle Generation](#puzzle-generation-1)
+#### [Metrics tracked](#metrics-tracked-1)
+#### [Session Summary](#session-summary-1)
+#### [Why This Approach](#why-this-approach-1)
+#### [Requirements](#requirements-1)
+#### [Conclusion](#conclusion-1)
 
 ## Overview
 
@@ -38,7 +38,10 @@ src/
 Each module has a single responsibility, making the system easy to understand and extend.
 
 ## System Flow
-Start session
+
+     __________________
+    |  Start session   |
+     __________________
    ↓
 Enter user name
    ↓
