@@ -1,4 +1,20 @@
 # Math Adventures — AI-Powered Adaptive Learning Prototype
+
+## Content
+### Overview
+### Project Structure
+### System Flow
+### Adaptive Logic
+### Difficulty Representation
+### Performance Signal
+### Stability Rules
+### Puzzle Generation
+### Metrics tracked
+### Session Summary
+### Why This Approach
+### Requirements
+### Conclusion
+
 ## Overview
 
 This repository contains aminimal adaptive learning prototype designed to demonstrate how difficulty can be adjusted dynamically based on a learner’s performance.
@@ -6,28 +22,22 @@ The system presents a short sequence of math problems and adapts the difficulty 
 
 The goal of this project is to demonstrate:
 
-clear system design
-
-adaptive logic
-
-performance tracking
-
-clean, readable code
-
-rather than heavy UI or machine-learning complexity.
+- adaptive logic
+- performance tracking
+- simple, clean and readable code with clear system design
 
 ## Project Structure
 
 src/
-  ├── main.py              # Session flow and user interaction
-  ├── puzzle_generator.py  # Difficulty-based math question generation
-  ├── adaptive_engine.py   # Adaptive difficulty logic
-  └── tracker.py           # Performance tracking and session statistics
+  |-- main.py              # Session flow and user interaction
+  |--puzzle_generator.py  # Difficulty-based math question generation
+  |-- adaptive_engine.py   # Adaptive difficulty logic
+  |-- tracker.py           # Performance tracking and session statistics
 
 
 Each module has a single responsibility, making the system easy to understand and extend.
 
-System Flow
+## System Flow
 Start session
    ↓
 Enter user name
@@ -169,4 +179,3 @@ Conclusion
 
 This project demonstrates how adaptive learning behavior can be implemented using a small, well-structured system with reinforcement-style updates and meaningful performance metrics, without relying on heavy machine-learning frameworks.
 
-Notes
