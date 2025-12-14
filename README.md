@@ -1,7 +1,7 @@
 # Math Adventures — AI-Powered Adaptive Learning Prototype
 
 ## Content
-### [Overview](overview-1)
+### [Overview](#overview-1)
 ### Project Structure
 ### System Flow
 ### Adaptive Logic
