@@ -89,12 +89,12 @@ score ∈ [0.0, 3.0]
 
 Mapped to discrete levels:
 
-Score Range  |	Difficulty
-------------------------------
-0.0 – 0.99   |  Easy
-1.0 – 1.99   |	Medium
-2.0 – 2.99   |	Hard
-≥ 3.0	   | Warrior Mode
+| Score Range      | Difficulty     |
+| ---------------- |:--------------:|
+| 0.0 – 0.99       |     Easy       |
+| 1.0 – 1.99       |	Medium     |
+| 2.0 – 2.99       |	Hard       |
+|     ≥ 3.0	    | Warrior Mode   |
 
 This prevents abrupt jumps between difficulty levels.
 
