@@ -124,12 +124,12 @@ Difficulty is clamped within valid bounds. These rules simulate how a human tuto
 
 Math problems are generated based on the current difficulty level:
 
-Level         |	Characteristics
----------------------------------------------
-Easy          |    Single arithmetic operation
-Medium        |	Two simple operations
-Hard          |   	Multiplication combined with addition
-Warrior Mode  |  	Parenthesized expressions
+| Level          |	Characteristics                        |
+|----------------|---------------------------------------- |
+| Easy           |    Single arithmetic operation          |
+| Medium         |	Two simple operations                  |
+| Hard           |   Multiplication combined with addition |
+| Warrior Mode   |  Parenthesized expressions              |
 
 All division problems are generated using integer-only division, ensuring answers are always whole numbers and age-appropriate.
 
