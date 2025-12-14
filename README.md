@@ -28,12 +28,11 @@ The goal of this project is to demonstrate:
 
 ## Project Structure
 
-src
- 
-  |-- main.py              # Session flow and user interaction
-  |--puzzle_generator.py  # Difficulty-based math question generation
-  |-- adaptive_engine.py   # Adaptive difficulty logic
-  |-- tracker.py           # Performance tracking and session statistics
+File "src" contains the following code:
+- main.py              :  Session flow and user interaction
+- puzzle_generator.py  :  Difficulty-based math question generation
+- adaptive_engine.py   :  Adaptive difficulty logic
+- tracker.py           : Performance tracking and session statistics
 
 
 Each module has a single responsibility, making the system easy to understand and extend.
@@ -43,22 +42,38 @@ Each module has a single responsibility, making the system easy to understand an
      __________________
     |  Start session   |
      __________________
-   ↓
-Enter user name
-   ↓
-Choose starting difficulty
-   ↓
-Generate math question
-   ↓
-User submits answer (timed)
-   ↓
-Track correctness and time
-   ↓
-Update difficulty level
-   ↓
-Repeat for fixed number of questions
-   ↓
-Display session summary and next-level recommendation
+             ↓
+     _________________
+    | Enter user name |
+     _________________
+             ↓
+     ____________________________
+    | Choose starting difficulty |
+     ____________________________
+             ↓
+     _______________
+    | math question |
+     _______________
+             ↓
+     ______________________________
+    | User submits answer (timed)  |
+     ______________________________
+             ↓
+     ____________________________
+    | Track correctness and time |
+     ____________________________
+             ↓
+     _________________________
+    | Update difficulty level |
+     _________________________
+             ↓
+     ______________________________________
+    | Repeat for fixed number of questions |
+     ______________________________________
+             ↓
+     ______________________________________________________
+    | Display session summary and next-level recommendation |
+     ______________________________________________________
 
 Adaptive Logic
 Type of Adaptation
