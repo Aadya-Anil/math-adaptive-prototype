@@ -171,7 +171,6 @@ This project uses only Python standard library modules:
 - time
 - random
 - dataclasses
-- typing
 
 No external dependencies
 
