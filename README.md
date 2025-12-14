@@ -7,7 +7,7 @@
 #### [Adaptive Logic](#system-flow-1)
 #### [Difficulty Representation](#difficulty-representation-1)
 #### [Performance Signal](#performance-signal-1)
-#### [Stability Rules](#stabilit-rules-1)
+#### [Stability Rules](#stability-rules-1)
 #### [Puzzle Generation](#puzzle-generation-1)
 #### [Metrics tracked](#metrics-tracked-1)
 #### [Session Summary](#session-summary-1)
@@ -75,126 +75,102 @@ Each module has a single responsibility, making the system easy to understand an
     | Display session summary and next-level recommendation |
      ______________________________________________________
 
-Adaptive Logic
-Type of Adaptation
-
-The system uses a reinforcement-style adaptive approach with rule-based constraints.
-
+## Adaptive Logic
+Type of Adaptation: The system uses a reinforcement-style adaptive approach with rule-based constraints.
 It is not purely rule-based, as difficulty is adjusted using a continuous performance signal.
-
 It is not full machine learning, as no model is trained and no dataset is required.
 
 This hybrid approach provides adaptive behavior while remaining transparent and predictable.
 
-Difficulty Representation
+## Difficulty Representation
 
 Difficulty is tracked internally as a continuous score:
-
 score ∈ [0.0, 3.0]
-
 
 Mapped to discrete levels:
 
-Score Range	Difficulty
-0.0 – 0.99	Easy
-1.0 – 1.99	Medium
-2.0 – 2.99	Hard
-≥ 3.0	Warrior
+Score Range  |	Difficulty
+------------------------------
+0.0 – 0.99   |  Easy
+1.0 – 1.99   |	Medium
+2.0 – 2.99   |	Hard
+≥ 3.0	   | Warrior Mode
 
 This prevents abrupt jumps between difficulty levels.
 
-Performance Signal
+## Performance Signal
 
 Each question produces a performance signal based on:
-
-Correctness (primary factor)
-
-Response time (small bonus for faster answers)
+1. Correctness (primary factor)
+2. Response time (small bonus for faster answers)
 
 The difficulty score is updated using:
 
 score += learning_rate × (performance − target)
 
-
 This moves difficulty up when the learner performs well and down when they struggle.
 
-Stability Rules
+## Stability Rules
 
 To keep the experience learner-friendly, additional rules are applied:
 
-3 consecutive correct answers → increase difficulty
+3 consecutive correct answers => increase difficulty
 
-2 consecutive wrong answers → decrease difficulty
+2 consecutive wrong answers   => decrease difficulty
 
-Difficulty is clamped within valid bounds
+Difficulty is clamped within valid bounds. These rules simulate how a human tutor would adapt in real time.
 
-These rules simulate how a human tutor would adapt in real time.
-
-Puzzle Generation
+## Puzzle Generation
 
 Math problems are generated based on the current difficulty level:
 
-Level	Characteristics
-Easy	Single arithmetic operation
-Medium	Two simple operations
-Hard	Multiplication combined with addition
-Warrior	Parenthesized expressions
+Level         |	Characteristics
+---------------------------------------------
+Easy          |    Single arithmetic operation
+Medium        |	Two simple operations
+Hard          |   	Multiplication combined with addition
+Warrior Mode  |  	Parenthesized expressions
 
 All division problems are generated using integer-only division, ensuring answers are always whole numbers and age-appropriate.
 
-Metrics Tracked
+## Metrics Tracked
 
 During each session, the system tracks:
-
-Total correct and incorrect answers
-
-Accuracy percentage
-
-Time taken per question
-
-Average response time
+1. Total correct and incorrect answers
+2. Accuracy percentage
+3. Time taken per question
+4. Average response time
 
 These metrics influence both the adaptive difficulty updates and the final session recommendation.
 
-Session Summary
+## Session Summary
 
 At the end of the session, the system displays:
+> Number of correct and wrong answers
+> Accuracy percentage
+> Average response time
+> Recommended next difficulty level
 
-Number of correct and wrong answers
+Users are promoted only if performance exceeds a defined threshold ie. if the scored above 60% in current level.
 
-Accuracy percentage
-
-Average response time
-
-Recommended next difficulty level
-
-Users are promoted only if performance exceeds a defined threshold.
-
-Why This Approach
+## Why This Approach
 
 This design was chosen because it is:
+> Easy to implement and reason about
+> No external dependencies or training data, hence light-weight
+> Adapts immediately after each question, providing real-time simulation
+> It is educationally appropriate fro students of ages 5 to 10.
+> It can be extended to ML-based adaptation in the future
 
-Explainable – easy to understand and reason about
+Implemented using Github COdespaces - command to run program "python -m src.main"
 
-Lightweight – no external dependencies or training data
+## Requirements
 
-Real-time – adapts immediately after each question
-
-Educationally appropriate – avoids sudden difficulty spikes
-
-Extensible – can be upgraded to ML-based adaptation in the future
-
-Running the Project
-Requirements
-
-Python 3.8 or higher
-
+Python 3.8 or higher version
 No external dependencies
 
-Run Command
-python -m src.main
 
-Conclusion
+## Conclusion
 
 This project demonstrates how adaptive learning behavior can be implemented using a small, well-structured system with reinforcement-style updates and meaningful performance metrics, without relying on heavy machine-learning frameworks.
 
