@@ -23,7 +23,7 @@ def generate_puzzle(level):
         expr = f"{a} {op} {b} {op} {c}"
         if op == "/":
             dividend = a * b
-            expr= f"{dividend} / a"
+            expr= f"{dividend} / {a}"
 
     else: # Warrior level : combines two small expressions 
         a, b = random.randint(1, 9), random.randint(1, 9)
